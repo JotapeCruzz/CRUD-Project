@@ -1,4 +1,10 @@
 <?php
+session_start();
+if((!isset($_SESSION['email']) == true ) and (!isset($_SESSION['senha']) == true)){
+    unset($_SESSION['email']);
+    unset($_SESSION['senha']);
+    header('Location: login.php');
+}
 include "db_conn.php";
 
 if (isset($_POST['submit'])) {
@@ -15,7 +21,7 @@ if (isset($_POST['submit'])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        header("Location: index.php?msg=Novo item adicionado com sucesso!");
+        header("Location: list.php?msg=Novo item adicionado com sucesso!");
         exit();
     } else {
         echo "Falha: " . mysqli_error($conn);
@@ -40,7 +46,14 @@ if (isset($_POST['submit'])) {
 
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; 
+            margin: 0; 
             background-color: #f8f9fa;
+        }
+        main {
+            flex: 1;
         }
         .form-container {
             background-color: #ffffff;
@@ -51,6 +64,14 @@ if (isset($_POST['submit'])) {
         .form-label {
             font-weight: bold;
         }
+        footer {
+            background-color: #6e78aa; 
+            color: white;
+        }
+        footer img {
+            width: 30px;
+            height: 30px;
+        }
     </style>
 </head>
 <body>
@@ -59,67 +80,81 @@ if (isset($_POST['submit'])) {
         Database Register 
     </nav>
 
-    <div class="container">
-        <div class="text-center mb-4">
-            <h3>Adicionar Novo Item</h3>
-            <p class="text-muted">Preencha as informações para adicionar um novo item ao banco de dados</p>
-        </div>
-        
-        <div class="container d-flex justify-content-center">
-            <div class="form-container">
-                <form action="" method="post" style="width:100%; min-width: 300px;">
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Modelo:</label>
-                            <input type="text" class="form-control" name="modelo_item" placeholder="e.x.: 110.11.53" required>
+    <main>
+        <div class="container">
+            <div class="text-center mb-4">
+                <h3>Adicionar Novo Item</h3>
+                <p class="text-muted">Preencha as informações para adicionar um novo item ao banco de dados</p>
+            </div>
+            
+            <div class="container d-flex justify-content-center">
+                <div class="form-container">
+                    <form action="" method="post" style="width:100%; min-width: 300px;">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Modelo:</label>
+                                <input type="text" class="form-control" name="modelo_item" placeholder="e.x.: 110.11.53" required>
+                            </div>
+
+                            <div class="col">
+                                <label class="form-label">Categoria:</label>
+                                <input type="text" class="form-control" name="categoria" placeholder="e.x.: Placa de vídeo" required>
+                            </div>
                         </div>
 
-                        <div class="col">
-                            <label class="form-label">Categoria:</label>
-                            <input type="text" class="form-control" name="categoria" placeholder="e.x.: Placa de vídeo" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Descrição:</label>
-                        <textarea class="form-control" name="descricao" rows="3" placeholder="e.x.: Placa de vídeo RTX 4060 - Alimentação 16pin - Marca: Palit" required></textarea>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Quantidade:</label>
-                            <input type="number" class="form-control" name="quantidade" placeholder="e.x.: 10" min="1" required>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição:</label>
+                            <textarea class="form-control" name="descricao" rows="3" placeholder="e.x.: Placa de vídeo RTX 4060 - Alimentação 16pin - Marca: Palit" required></textarea>
                         </div>
                         
-                        <div class="col">
-                            <label class="form-label">Tipo do Item:</label>
-                            <select class="form-select" name="tipo_item" required>
-                                <option value="" disabled selected>Selecione o tipo</option>
-                                <option value="unidade">Unidade</option>
-                                <option value="caixa">Caixa</option>
-                                <option value="kit">Kit</option>
-                                <option value="kit">Par</option>
-                                <option value="kit">Pacote</option>
-
-                            </select>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Quantidade:</label>
+                                <input type="number" class="form-control" name="quantidade" placeholder="e.x.: 10" min="1" required>
+                            </div>
+                            
+                            <div class="col">
+                                <label class="form-label">Tipo do Item:</label>
+                                <select class="form-select" name="tipo_item" required>
+                                    <option value="" disabled selected>Selecione o tipo</option>
+                                    <option value="unidade">Unidade</option>
+                                    <option value="caixa">Caixa</option>
+                                    <option value="kit">Kit</option>
+                                    <option value="par">Par</option>
+                                    <option value="pacote">Pacote</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="item-value" class="form-label">Valor do Item (R$):</label>
-                        <input type="number" class="form-control" id="item-value" name="valor" placeholder="0,00" step="0.01" min="0" required>
-                    </div>
+                        <div class="mb-3">
+                            <label for="item-value" class="form-label">Valor do Item (R$):</label>
+                            <input type="number" class="form-control" id="item-value" name="valor" placeholder="0,00" step="0.01" min="0" required>
+                        </div>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success w-50" name="submit"><i class="fa fa-plus"></i> Adicionar</button>
-                        <a href="index.php" class="btn btn-danger w-50 mt-2"><i class="fa fa-times"></i> Cancelar</a>
-                    </div>
-                </form>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success w-50" name="submit"><i class="fa fa-plus"></i> Adicionar</button>
+                            <a href="list.php" class="btn btn-danger w-50 mt-2"><i class="fa fa-times"></i> Cancelar</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <footer class="text-center py-4">
+        <p class="mb-0">Todos os direitos reservados.</p>
+        <div class="d-flex justify-content-center gap-3 mt-2">
+            <a href="https://github.com/JotapeCruzz" target="_blank" class="text-white">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="text-white">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div>
+    </footer>
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
+
