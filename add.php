@@ -10,7 +10,8 @@ include "db_conn.php";
 if (isset($_POST['submit'])) {
     $modelo = mysqli_real_escape_string($conn, $_POST['modelo_item']);
     $descricao = mysqli_real_escape_string($conn, $_POST['descricao']);
-    $quantidade = mysqli_real_escape_string($conn, $_POST['quantidade']);
+    $quantidade = mysqli_real_escape_string($conn, $_POST['quantidade
+']);
     $tipo = mysqli_real_escape_string($conn, $_POST['tipo_item']);
     $valor = mysqli_real_escape_string($conn, $_POST['valor']);
     $categoria = mysqli_real_escape_string($conn, $_POST['categoria']);
@@ -75,13 +76,17 @@ if (isset($_POST['submit'])) {
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-light justify-content-center fs-3 mb-5"
-    style="background-color: #3477eb; color: white;">
-        Database Register 
-    </nav>
+
+    <header class="navbar navbar-light" style="background-color: #3477eb; color: white;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="fs-3 mb-0 text-center flex-grow-1">Database Register</h1>
+            <a href="dashboard.php" class="btn btn-light header-btn ms-3"><i class="fa fa-arrow-left"></i>Voltar</a>
+            <a href="exit.php" class="btn btn-danger ms-3">Sair</a>
+        </div>
+    </header>
 
     <main>
-        <div class="container">
+        <div class="container mt-4">
             <div class="text-center mb-4">
                 <h3>Adicionar Novo Item</h3>
                 <p class="text-muted">Preencha as informações para adicionar um novo item ao banco de dados</p>

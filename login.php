@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['primeiro_nome'] = $user['primeiro_nome'];
             $_SESSION['email'] = $user['email'];
 
-            header("Location: list.php");
+            header("Location: dashboard.php");
             exit();
         } else {
             $errorMessage = "Senha incorreta.";

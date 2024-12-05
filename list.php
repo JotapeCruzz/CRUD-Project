@@ -57,15 +57,16 @@ if((!isset($_SESSION['email']) == true ) and (!isset($_SESSION['senha']) == true
 </head>
 <body>
 
-    <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #3477eb;">
-        Registro de Itens
-        <div class="d-flex jtify-content-right">
-            <a href="exit.php" class="btn btn-danger ">Sair</a>
+    <header class="navbar navbar-light" style="background-color: #3477eb; color: white;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="fs-3 mb-0 text-center flex-grow-1">Database Register</h1>
+            <a href="dashboard.php" class="btn btn-light header-btn ms-3"><i class="fa fa-arrow-left"></i>Voltar</a>
+            <a href="exit.php" class="btn btn-danger ms-3">Sair</a>
         </div>
-    </nav>
+    </header>
     
     <main>
-        <div class="container">
+        <div class="container mt-4">
 
             <?php
             if (isset($_GET['msg'])) {
